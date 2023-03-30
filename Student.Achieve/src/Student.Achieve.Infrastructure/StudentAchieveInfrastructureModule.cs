@@ -51,7 +51,6 @@ namespace Student.Achieve.Infrastructure
             services.AddScoped<ISqlConnectionFactory, DefaultSqlConnectionFactory>(_ => new DefaultSqlConnectionFactory(connectionString));
 
             #endregion database
-            services.AddTransient<ITenantStore, TenantStore>();
             // TODO:Fix package
             
             #region identity

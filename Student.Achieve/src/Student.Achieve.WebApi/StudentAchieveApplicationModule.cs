@@ -1,6 +1,8 @@
 using Fabricdot.Core.Boot;
 using Fabricdot.Core.Modularity;
 using Fabricdot.Domain.SharedKernel;
+using Fabricdot.MultiTenancy.Abstractions;
+using Fabricdot.MultiTenancy.AspNetCore;
 using Fabricdot.WebApi;
 using Fabricdot.WebApi.Tracing;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +20,7 @@ namespace Student.Achieve.WebApi
 {
     [Requires(typeof(StudentAchieveInfrastructureModule))]
     [Requires(typeof(FabricdotWebApiModule))]
+    [Requires(typeof(FabricdotMultiTenancyAspNetCoreModule))]
     [Exports]
     public class StudentAchieveApplicationModule : ModuleBase
     {
@@ -56,7 +59,7 @@ namespace Student.Achieve.WebApi
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            app.UseMultiTenancy();
             app.UserSwagger();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());

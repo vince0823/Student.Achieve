@@ -1,4 +1,6 @@
-﻿using Fabricdot.MultiTenancy.Abstractions;
+﻿using Fabricdot.Core.DependencyInjection;
+using Fabricdot.MultiTenancy.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Student.Achieve.Domain.Repositories;
 using Student.Achieve.Domain.Specifications;
 using System;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Student.Achieve.Domain.Aggregates.TenantAggregate
 {
+    [Dependency(ServiceLifetime.Transient)]
     public class TenantStore : TenantStoreBase
     {
         private readonly ITenantRepository _tenantRepository;
