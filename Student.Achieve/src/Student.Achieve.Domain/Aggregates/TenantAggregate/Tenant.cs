@@ -18,7 +18,7 @@ namespace Student.Achieve.Domain.Aggregates.TenantAggregate
         /// <summary>
         ///     租户名称
         /// </summary>
-        public string NormalizedName { get; private set; }
+        public string NormalizedName { get;  set; }
         /// <summary>
         /// 所属人ID
         /// </summary>

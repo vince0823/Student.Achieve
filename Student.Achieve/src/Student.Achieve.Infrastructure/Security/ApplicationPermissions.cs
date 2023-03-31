@@ -30,6 +30,15 @@ namespace Student.Achieve.Infrastructure.Security
             public const string View = Name + Separator + nameof(View);
         }
 
+        public static class Tenants
+        {
+            public const string Name = "Tenant";
+            public const string Read = Name + Separator + StandardPermissions.Operations.Read;
+            public const string Update = Name + Separator + StandardPermissions.Operations.Update;
+            public const string View = Name + Separator + nameof(View);
+            public const string ManageUser = Name + Separator + nameof(ManageUser);
+        }
+
         internal const string Separator = ".";
     }
 }

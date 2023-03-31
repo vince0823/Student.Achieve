@@ -69,6 +69,11 @@ namespace Student.Achieve.Infrastructure.Data
                  .Add(P.Roles.Delete, "Delete")
                  .Add(P.Roles.ManagePermission, "Manage Permission")
                  .Add(P.Roles.View, "Manage");
+            group.AddPermission(P.Tenants.Name, "Tenants")
+               .Add(P.Tenants.Read, "Read")
+               .Add(P.Tenants.Update, "Update")
+               .Add(P.Tenants.ManageUser, "Manage User")
+               .Add(P.Tenants.View, "Manage");
 
             await _permissionManager.AddGroupAsync(group);
         }
