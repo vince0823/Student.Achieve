@@ -142,6 +142,7 @@ namespace Student.Achieve.WebApi.Endpoints
         /// <returns></returns>
         [Description("get user details")]
         [HttpGet("{id}")]
+        [Authorize(ApplicationPermissions.Users.Read)]
         public async Task<UserDetailsDto> GetAsync([FromRoute] Guid id)
         {
             return await QueryProcessor.ProcessAsync(new GetUserDetailsQuery(id));
@@ -167,7 +168,7 @@ namespace Student.Achieve.WebApi.Endpoints
         /// <returns></returns>
         [Description("get user paged list")]
         [HttpGet("paged-list")]
-        [Authorize(ApplicationPermissions.Users.Read)]
+        [Authorize(ApplicationPermissions.Users.View)]
         public async Task<PagedResultDto<UserDetailsDto>> GetPagedListAsync([FromQuery] GetUserPagedListQuery query)
         {
             return await QueryProcessor.ProcessAsync(query);

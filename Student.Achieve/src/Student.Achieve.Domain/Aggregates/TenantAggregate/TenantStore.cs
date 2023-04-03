@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Student.Achieve.Domain.Aggregates.TenantAggregate
 {
-    [Dependency(ServiceLifetime.Transient)]
+   // [Dependency(ServiceLifetime.Transient)]
     public class TenantStore : TenantStoreBase
     {
         private readonly ITenantRepository _tenantRepository;

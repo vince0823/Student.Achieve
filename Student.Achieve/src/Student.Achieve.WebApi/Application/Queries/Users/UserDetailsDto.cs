@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fabricdot.Domain.Auditing;
+using Fabricdot.Domain.SharedKernel;
 using Student.Achieve.Domain.Aggregates.UserAggregate;
 using Student.Achieve.WebApi.Application.Queries.Roles;
 using System;
@@ -7,10 +8,11 @@ using System.Collections.Generic;
 
 namespace Student.Achieve.WebApi.Application.Queries.Users
 {
-    [AutoMap(typeof(User))]
-    public class UserDetailsDto : IAuditEntity
+    
+    public class UserDetailsDto : IAuditEntity, IMultiTenant
     {
         public Guid Id { get; set; }
+        public Guid? TenantId { get; set; }
 
         public string UserName { get; set; }
 

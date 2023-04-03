@@ -52,7 +52,7 @@ namespace Student.Achieve.Infrastructure
 
             #endregion database
             // TODO:Fix package
-            
+            services.AddTransient<ITenantStore, TenantStore>();
             #region identity
 
             services.AddIdentity<User, Role>()

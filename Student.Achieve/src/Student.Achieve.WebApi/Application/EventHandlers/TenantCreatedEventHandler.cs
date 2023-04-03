@@ -6,6 +6,9 @@ using Student.Achieve.Domain.Aggregates.UserAggregate;
 using Student.Achieve.Domain.Events;
 using System.Threading.Tasks;
 using System.Threading;
+using Fabricdot.Authorization.Permissions;
+using Fabricdot.Authorization;
+using Fabricdot.PermissionGranting;
 
 namespace Student.Achieve.WebApi.Application.EventHandlers
 {
@@ -14,15 +17,18 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
         private readonly IDataFilter _dataFilter;
+        private readonly IPermissionGrantingManager _permissionGrantingManager;
 
         public TenantCreatedEventHandler(
             UserManager<User> userManager,
             IUserService userService,
-            IDataFilter dataFilter)
+            IDataFilter dataFilter,
+            IPermissionGrantingManager permissionGrantingManager)
         {
             _userManager = userManager;
             _userService = userService;
             _dataFilter = dataFilter;
+            _permissionGrantingManager= permissionGrantingManager;
         }
 
         public async Task HandleAsync(
@@ -48,6 +54,11 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
             var res = await _userManager.CreateAsync(
                 user,
                 tenantOwner.Password);
+
+            await _permissionGrantingManager.GrantAsync(
+              GrantSubject.User(user.Id.ToString()),
+              StandardPermissions.Superuser);
+
             res.EnsureSuccess();
         }
     }

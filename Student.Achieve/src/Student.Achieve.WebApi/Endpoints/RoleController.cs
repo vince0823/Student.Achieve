@@ -74,7 +74,7 @@ namespace Student.Achieve.WebApi.Endpoints
         /// <returns></returns>
         [Description("get role paged list")]
         [HttpGet("paged-list")]
-        [Authorize(ApplicationPermissions.Roles.Read)]
+        [Authorize(ApplicationPermissions.Roles.View)]
         public async Task<PagedResultDto<RoleDto>> GetPagedListAsync([FromQuery] GetRolePagedListQuery query)
         {
             return await QueryProcessor.ProcessAsync(query);
