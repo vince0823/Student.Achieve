@@ -55,11 +55,11 @@ namespace Student.Achieve.WebApi
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseMultiTenancy();
             app.UseAuthentication();
 
             app.UseAuthorization();
-            app.UseMultiTenancy();
+          
             app.UserSwagger();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());

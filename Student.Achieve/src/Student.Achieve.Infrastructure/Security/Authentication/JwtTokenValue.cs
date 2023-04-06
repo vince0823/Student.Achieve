@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using System;
 
 namespace Student.Achieve.Infrastructure.Security.Authentication
 {
@@ -13,6 +14,8 @@ namespace Student.Achieve.Infrastructure.Security.Authentication
         public long ExpireIn { get; }
 
         public string TokenType { get; }
+
+        public Guid? __Tenant__ { get; set; }
 
         public JwtTokenValue(
             string jti,

@@ -58,7 +58,11 @@ namespace Student.Achieve.WebApi.Application.Commands.Authentication
                 tenant.EnsureIsEnable();
             }
             var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
-            return await _jwtSecurityTokenService.CreateTokenAsync(claimsPrincipal);
+            var JwtTokenValue = await _jwtSecurityTokenService.CreateTokenAsync(claimsPrincipal);
+
+            JwtTokenValue.__Tenant__ = user.TenantId;
+
+            return JwtTokenValue;
 
             async Task<User> FindUserAsync(AuthenticateCommand request)
             {
