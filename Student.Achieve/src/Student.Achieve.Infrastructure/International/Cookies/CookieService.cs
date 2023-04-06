@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Student.Achieve.WebApi.Services
+namespace Student.Achieve.Infrastructure.International.Cookies
 {
     [Dependency(ServiceLifetime.Singleton)]
     public class CookieService : ICookieService

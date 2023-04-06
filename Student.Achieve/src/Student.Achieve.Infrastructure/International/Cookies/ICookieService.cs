@@ -1,4 +1,4 @@
-﻿namespace Student.Achieve.WebApi.Services
+﻿namespace Student.Achieve.Infrastructure.International.Cookies
 {
     public interface ICookieService
     {
