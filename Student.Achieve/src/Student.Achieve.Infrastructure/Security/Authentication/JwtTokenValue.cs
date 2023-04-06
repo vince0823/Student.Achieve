@@ -15,8 +15,6 @@ namespace Student.Achieve.Infrastructure.Security.Authentication
 
         public string TokenType { get; }
 
-        public Guid? __Tenant__ { get; set; }
-
         public JwtTokenValue(
             string jti,
             string accessToken,
