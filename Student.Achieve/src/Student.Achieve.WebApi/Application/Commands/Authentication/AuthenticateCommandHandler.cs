@@ -2,10 +2,15 @@
 using Fabricdot.Domain.SharedKernel;
 using Fabricdot.Infrastructure.Commands;
 using Fabricdot.Infrastructure.Data.Filters;
+using Fabricdot.WebApi.Endpoint;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Student.Achieve.Domain.Aggregates.UserAggregate;
 using Student.Achieve.Domain.Repositories;
 using Student.Achieve.Infrastructure.Security.Authentication;
+using Student.Achieve.WebApi.Services;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,17 +22,21 @@ namespace Student.Achieve.WebApi.Application.Commands.Authentication
         private readonly SignInManager<User> _signInManager;
         private readonly ITenantRepository _tenantRepository;
         private readonly IJwtSecurityTokenService _jwtSecurityTokenService;
+        private readonly ICookieService _cookieService;
 
         public AuthenticateCommandHandler(
             IDataFilter dataFilter,
             SignInManager<User> signInManager,
              ITenantRepository tenantRepository,
-            IJwtSecurityTokenService jwtSecurityTokenService)
+            IJwtSecurityTokenService jwtSecurityTokenService,
+            ICookieService cookieService
+            )
         {
             _dataFilter = dataFilter;
             _signInManager = signInManager;
             _tenantRepository = tenantRepository;
             _jwtSecurityTokenService = jwtSecurityTokenService;
+            _cookieService = cookieService;
         }
 
         public override async Task<JwtTokenValue> ExecuteAsync(
@@ -57,12 +66,10 @@ namespace Student.Achieve.WebApi.Application.Commands.Authentication
                 Guard.Against.Null(tenant, nameof(tenant));
                 tenant.EnsureIsEnable();
             }
+            _cookieService.DeleteCookie("__Tenant__");
+            _cookieService.SetCookie("__Tenant__", user.TenantId.ToString(), 20);
             var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
             return await _jwtSecurityTokenService.CreateTokenAsync(claimsPrincipal);
-
-        
-             
-
             async Task<User> FindUserAsync(AuthenticateCommand request)
             {
                 using var scope = _dataFilter.Disable<IMultiTenant>();

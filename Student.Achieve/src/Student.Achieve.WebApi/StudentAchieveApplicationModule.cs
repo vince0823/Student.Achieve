@@ -7,6 +7,7 @@ using Fabricdot.WebApi;
 using Fabricdot.WebApi.Tracing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,7 +36,7 @@ namespace Student.Achieve.WebApi
 
             SystemClock.Configure(DateTimeKind.Utc);
             services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAuthenticationWithJwt(context.Configuration);
         }
 
