@@ -9,6 +9,10 @@ using System.Threading;
 using Fabricdot.Authorization.Permissions;
 using Fabricdot.Authorization;
 using Fabricdot.PermissionGranting;
+using Student.Achieve.Infrastructure.International.Cookies;
+using Fabricdot.Infrastructure.Security;
+using Fabricdot.MultiTenancy.Abstractions;
+using Fabricdot.MultiTenancy;
 
 namespace Student.Achieve.WebApi.Application.EventHandlers
 {
@@ -18,17 +22,23 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
         private readonly IUserService _userService;
         private readonly IDataFilter _dataFilter;
         private readonly IPermissionGrantingManager _permissionGrantingManager;
-
+        private readonly ICookieService _cookieService;
+        private readonly ICurrentTenant _currentTenant;
         public TenantCreatedEventHandler(
             UserManager<User> userManager,
             IUserService userService,
             IDataFilter dataFilter,
-            IPermissionGrantingManager permissionGrantingManager)
+            IPermissionGrantingManager permissionGrantingManager,
+             ICookieService cookieService,
+             ICurrentTenant currentTenant
+            )
         {
             _userManager = userManager;
             _userService = userService;
             _dataFilter = dataFilter;
-            _permissionGrantingManager= permissionGrantingManager;
+            _permissionGrantingManager = permissionGrantingManager;
+            _cookieService = cookieService;
+            _currentTenant = currentTenant;
         }
 
         public async Task HandleAsync(
@@ -54,10 +64,10 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
             var res = await _userManager.CreateAsync(
                 user,
                 tenantOwner.Password);
-
+            _currentTenant.Change(user.TenantId);
             await _permissionGrantingManager.GrantAsync(
-              GrantSubject.User(user.Id.ToString()),
-              StandardPermissions.Superuser);
+            GrantSubject.User(user.Id.ToString()),
+            StandardPermissions.Superuser);
 
             res.EnsureSuccess();
         }
