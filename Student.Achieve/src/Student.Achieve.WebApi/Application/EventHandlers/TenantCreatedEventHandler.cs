@@ -22,14 +22,12 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
         private readonly IUserService _userService;
         private readonly IDataFilter _dataFilter;
         private readonly IPermissionGrantingManager _permissionGrantingManager;
-        private readonly ICookieService _cookieService;
         private readonly ICurrentTenant _currentTenant;
         public TenantCreatedEventHandler(
             UserManager<User> userManager,
             IUserService userService,
             IDataFilter dataFilter,
             IPermissionGrantingManager permissionGrantingManager,
-             ICookieService cookieService,
              ICurrentTenant currentTenant
             )
         {
@@ -37,7 +35,6 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
             _userService = userService;
             _dataFilter = dataFilter;
             _permissionGrantingManager = permissionGrantingManager;
-            _cookieService = cookieService;
             _currentTenant = currentTenant;
         }
 

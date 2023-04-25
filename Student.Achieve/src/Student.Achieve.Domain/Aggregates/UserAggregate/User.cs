@@ -42,6 +42,7 @@ namespace Student.Achieve.Domain.Aggregates.UserAggregate
         }
 
         public User(
+              Guid tenantId,
           Guid userId,
           string userName,
           string givenName,
@@ -51,6 +52,7 @@ namespace Student.Achieve.Domain.Aggregates.UserAggregate
           string email = null
          ) : base(userId, userName)
         {
+            TenantId = tenantId;
             GivenName = givenName;
             Surname = surname;
             Email = email?.Trim();

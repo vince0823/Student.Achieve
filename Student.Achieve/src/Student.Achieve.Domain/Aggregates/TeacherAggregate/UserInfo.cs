@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Student.Achieve.Domain.Aggregates.TeacherAggregate
 {
-   public class UserInfo
+    public class UserInfo
     {
         public Guid UserId { get; set; }
 
@@ -16,8 +16,7 @@ namespace Student.Achieve.Domain.Aggregates.TeacherAggregate
 
         public string GivenName { get; set; }
 
-        public string Surname { get; set; }
-
         public string PhoneNumber { get; set; }
+        public Guid TargetId { get; set; }
     }
 }
