@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Student.Achieve.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using Student.Achieve.Infrastructure.Data;
 namespace Student.Achieve.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230425032357_AddTeacher")]
+    partial class AddTeacher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,6 +239,9 @@ namespace Student.Achieve.Infrastructure.Migrations
                     b.Property<Guid>("GradeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("GradeId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -261,6 +266,8 @@ namespace Student.Achieve.Infrastructure.Migrations
                     b.HasIndex("ClassName");
 
                     b.HasIndex("GradeId");
+
+                    b.HasIndex("GradeId1");
 
                     b.ToTable("Classs", (string)null);
                 });
@@ -386,6 +393,9 @@ namespace Student.Achieve.Infrastructure.Migrations
                     b.Property<Guid>("ClassId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ClassId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .IsRequired()
@@ -445,6 +455,8 @@ namespace Student.Achieve.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("ClassId1");
 
                     b.HasIndex("StudentName");
 
@@ -784,22 +796,30 @@ namespace Student.Achieve.Infrastructure.Migrations
 
             modelBuilder.Entity("Student.Achieve.Domain.Aggregates.ClassAggregate.Class", b =>
                 {
-                    b.HasOne("Student.Achieve.Domain.Aggregates.GradeAggregate.Grade", "Grade")
+                    b.HasOne("Student.Achieve.Domain.Aggregates.GradeAggregate.Grade", null)
                         .WithMany()
                         .HasForeignKey("GradeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Student.Achieve.Domain.Aggregates.GradeAggregate.Grade", "Grade")
+                        .WithMany()
+                        .HasForeignKey("GradeId1");
 
                     b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("Student.Achieve.Domain.Aggregates.StudentAggregate.Student", b =>
                 {
-                    b.HasOne("Student.Achieve.Domain.Aggregates.ClassAggregate.Class", "Class")
+                    b.HasOne("Student.Achieve.Domain.Aggregates.ClassAggregate.Class", null)
                         .WithMany()
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Student.Achieve.Domain.Aggregates.ClassAggregate.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId1");
 
                     b.Navigation("Class");
                 });

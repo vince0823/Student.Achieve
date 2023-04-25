@@ -8,6 +8,10 @@ namespace Student.Achieve.Domain.Aggregates.UserAggregate
     public class User : IdentityUser, IMultiTenant
     {
         public Guid? TenantId { get; private set; }
+
+        public UserType UserType { get; private set; } = UserType.Teacher;
+
+        public Guid? TargetId { get; private set; }
         public User(
             Guid userId,
             string userName,
@@ -35,6 +39,25 @@ namespace Student.Achieve.Domain.Aggregates.UserAggregate
                email)
         {
             TenantId = tenantId;
+        }
+
+        public User(
+          Guid userId,
+          string userName,
+          string givenName,
+           UserType userType,
+           Guid? targetId,
+          string surname = null,
+          string email = null
+         ) : base(userId, userName)
+        {
+            GivenName = givenName;
+            Surname = surname;
+            Email = email?.Trim();
+            EmailConfirmed = false;
+            Enable();
+            UserType = userType;
+            TargetId = targetId;
         }
         private User()
         {

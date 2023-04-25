@@ -16,4 +16,8 @@
     <PackageReference Include="Fabricdot.MultiTenancy.Abstractions" Version="0.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\DepartmnetAggregate\" />
+  </ItemGroup>
+
 </Project>
