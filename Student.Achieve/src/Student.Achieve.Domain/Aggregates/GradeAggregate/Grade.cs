@@ -17,7 +17,7 @@ namespace Student.Achieve.Domain.Aggregates.GradeAggregate
         /// 入学年份
         /// </summary>
         public int EnrollmenYear { get; private set; }
-
+        public bool IsGraduated { get; private set; } = false;
         /// <summary>
         /// 年级主任
         /// </summary>
@@ -31,6 +31,18 @@ namespace Student.Achieve.Domain.Aggregates.GradeAggregate
         {
             Id = id;
             TenantId = tenantId;
+            GradeName = gradeName;
+            EnrollmenYear = enrollmenYear;
+            DutyUserID = dutyUserID;
+        }
+
+        public void Graduated()
+        {
+            IsGraduated = true;
+        }
+
+        public void Update(string gradeName, int enrollmenYear, Guid? dutyUserID)
+        {
             GradeName = gradeName;
             EnrollmenYear = enrollmenYear;
             DutyUserID = dutyUserID;

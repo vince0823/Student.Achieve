@@ -14,6 +14,7 @@ namespace Student.Achieve.Domain.Aggregates.ClassAggregate
         public Guid? TenantId { get; private set; }
         public string ClassName { get; private set; }
         public Guid? DutyUserId { get; private set; }
+        public bool IsGraduated { get; private set; } = false;
         public Guid GradeId { get; private set; }
         public virtual Grade Grade { get; private set; } = default!;
 
@@ -27,5 +28,18 @@ namespace Student.Achieve.Domain.Aggregates.ClassAggregate
             GradeId = gradeId;
             DutyUserId = dutyUserId;
         }
+
+        public void Graduated()
+        {
+            IsGraduated = true;
+
+        }
+        public void Update(string className, Guid gradeId, Guid? dutyUserId)
+        {
+            ClassName = className;
+            GradeId = gradeId;
+            DutyUserId = dutyUserId;
+        }
+
     }
 }
