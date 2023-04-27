@@ -17,6 +17,7 @@ namespace Student.Achieve.Domain.Aggregates.TeacherAggregate
         public string GivenName { get; set; }
 
         public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public Guid TargetId { get; set; }
     }
 }

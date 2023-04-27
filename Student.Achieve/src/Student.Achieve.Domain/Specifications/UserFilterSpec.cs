@@ -13,5 +13,19 @@ namespace Student.Achieve.Domain.Specifications
         {
             Query.Where(v => v.Id != userId && v.PhoneNumber == phoneNumber);
         }
+
+        public UserFilterSpec(
+            Guid targetId
+            )
+        {
+            Query.Where(v => v.TargetId != null && v.TargetId == targetId);
+        }
+
+        public UserFilterSpec(
+           string phoneNumber
+           )
+        {
+            Query.Where(v =>v.PhoneNumber == phoneNumber);
+        }
     }
 }

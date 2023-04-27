@@ -69,5 +69,10 @@ namespace Student.Achieve.Domain.Aggregates.UserAggregate
             PhoneNumber = Guard.Against.NullOrEmpty(phoneNumber.Trim(), nameof(phoneNumber));
             PhoneNumberConfirmed = false;
         }
+
+        public void ChangeTargetId(Guid targetId)
+        {
+            TargetId = targetId;
+        }
     }
 }

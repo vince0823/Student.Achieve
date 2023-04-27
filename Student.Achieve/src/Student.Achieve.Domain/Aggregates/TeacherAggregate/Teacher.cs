@@ -26,5 +26,13 @@ namespace Student.Achieve.Domain.Aggregates.TeacherAggregate
             TeacherEmail = teacherEmail;
             PhoneNumber = phoneNumber;
         }
+
+        public void Update(string teacherName, string teacherEmail, string phoneNumber)
+        {
+            TeacherName = teacherName;
+            TeacherEmail = teacherEmail;
+            PhoneNumber = phoneNumber;
+
+        }
     }
 }
