@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Student.Achieve.WebApi.Application.Commands.Teachers;
+using Student.Achieve.WebApi.Application.Commands.Grades;
 using Student.Achieve.WebApi.Authorization;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System;
-using Student.Achieve.WebApi.Application.Commands.Grades;
+using Fabricdot.WebApi.Models;
+using Student.Achieve.WebApi.Application.Queries.Grades;
 
 namespace Student.Achieve.WebApi.Endpoints
 {
@@ -26,6 +27,56 @@ namespace Student.Achieve.WebApi.Endpoints
         {
             return await CommandBus.PublishAsync(command);
         }
+        /// <summary>
+        ///     Update
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [Description("update grade")]
+        [AllowAnonymous]
+        [HttpPut]
+        public async Task UpdateAsync([FromBody] UpdateGradeCommand command)
+        {
+            await CommandBus.PublishAsync(command);
+        }
 
+        /// <summary>
+        ///     Delete
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Description("delete Grade")]
+        [AllowAnonymous]
+        [HttpDelete("{id}")]
+        public async Task DeleteAsync([FromRoute] Guid id)
+        {
+            await CommandBus.PublishAsync(new RemoveGradeCommand(id));
+        }
+
+        /// <summary>
+        ///     Get detail
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Description("get Grade details")]
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<GradeDetailsDto> GetAsync([FromRoute] Guid id)
+        {
+            return await QueryProcessor.ProcessAsync(new GetGradeDetailsQuery(id));
+        }
+
+        /// <summary>
+        ///     Get paged list
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [Description("get Grade paged list")]
+        [HttpGet("paged-list")]
+        [AllowAnonymous]
+        public async Task<PagedResultDto<GradeDetailsDto>> GetPagedListAsync([FromQuery] GetGradePagedListQuery query)
+        {
+            return await QueryProcessor.ProcessAsync(query);
+        }
     }
 }

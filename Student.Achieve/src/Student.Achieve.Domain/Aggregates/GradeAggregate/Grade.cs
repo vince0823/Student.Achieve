@@ -1,5 +1,6 @@
 ﻿using Fabricdot.Domain.Entities;
 using Fabricdot.Domain.SharedKernel;
+using Student.Achieve.Domain.Aggregates.UserAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace Student.Achieve.Domain.Aggregates.GradeAggregate
         /// 年级主任
         /// </summary>
         public Guid? DutyUserID {  get; private set; }
+        public virtual User User { get; private set; } = default!;
 
         private Grade()
         {
