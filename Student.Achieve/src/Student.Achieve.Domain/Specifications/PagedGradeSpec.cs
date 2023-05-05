@@ -17,7 +17,7 @@ namespace Student.Achieve.Domain.Specifications
         {
             gradeName ??= "";
             Query.Where(v => v.GradeName.Contains(gradeName))
-                .Include(v => v.User)
+                //.Include(v => v.User)
                 .OrderByDescending(v => v.CreationTime);
             Query.Skip(offset)
                 .Take(size);

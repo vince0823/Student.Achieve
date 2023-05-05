@@ -78,5 +78,17 @@ namespace Student.Achieve.WebApi.Endpoints
         {
             return await QueryProcessor.ProcessAsync(query);
         }
+        /// <summary>
+        /// Graduate
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Description("Graduate Grade")]
+        [AllowAnonymous]
+        [HttpPost("{id}")]
+        public async Task GraduateAsync([FromRoute] Guid id)
+        {
+            await CommandBus.PublishAsync(new GraduateGradeCommand(id));
+        }
     }
 }

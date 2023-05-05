@@ -20,9 +20,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Grades
             var grade=await _gradeRepository.GetByIdAsync(command.GradeId,cancellationToken);
             Guard.Against.Null(grade, nameof(grade));
             await _gradeRepository.DeleteAsync(grade,cancellationToken);
-
-
-            throw new NotImplementedException();
+            return grade.Id;
         }
     }
 }
