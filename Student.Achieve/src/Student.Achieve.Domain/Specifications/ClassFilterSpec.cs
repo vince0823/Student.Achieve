@@ -14,5 +14,15 @@ namespace Student.Achieve.Domain.Specifications
         {
             Query.AsNoTracking().Where(v => v.GradeId == gradeId);
         }
+
+        public ClassFilterSpec(Guid gradeId, string className)
+        {
+            Query.AsNoTracking().Where(v => v.GradeId == gradeId && v.ClassName == className);
+        }
+        public ClassFilterSpec(Guid gradeId, string className, Guid classId)
+        {
+            Query.AsNoTracking().Where(v => v.GradeId == gradeId && v.ClassName == className && v.Id != classId);
+        }
+
     }
 }

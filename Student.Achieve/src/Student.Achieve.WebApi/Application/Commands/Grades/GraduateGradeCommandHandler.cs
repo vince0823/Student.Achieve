@@ -21,7 +21,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Grades
             var grade = await _gradeRepository.GetByIdAsync(command.GradeId, cancellationToken);
             Guard.Against.Null(grade, nameof(grade));
             grade.Graduated();
-            grade.AddDomainEvent(new ClassGraduatedEvent(grade.Id), cancellationToken);
+            grade.AddDomainEvent(new ClassGraduatedEvent(grade.Id));
             await _gradeRepository.UpdateAsync(grade, cancellationToken);
             return grade.Id;
         }
