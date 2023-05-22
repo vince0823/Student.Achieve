@@ -58,7 +58,8 @@ namespace Student.Achieve.Infrastructure.International.Cookies
         {
             CookieOptions options = new CookieOptions()
             {
-                Expires = DateTime.Now.AddMinutes(expiresTime)
+                Expires = DateTime.Now.AddMinutes(expiresTime),
+                IsEssential = true
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(key, value, options);
         }

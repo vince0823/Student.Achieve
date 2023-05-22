@@ -3,6 +3,7 @@ using Fabricdot.Infrastructure.DependencyInjection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
@@ -39,6 +40,12 @@ try
     builder.Services.AddFluentValidationAutoValidation()
                  // .AddFluentValidationClientsideAdapters()
                  .AddValidatorsFromAssemblyContaining(typeof(IFluentValidation));
+    builder.Services.Configure<CookiePolicyOptions>(options =>
+    {
+        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+        options.CheckConsentNeeded = context => true; //GDPR规范关闭 如果不关闭可能会cookie写入不了 在本机调试的时候无此问题，发布的时候就会碰到
+        options.MinimumSameSitePolicy = SameSiteMode.None;
+    });
 
 
     builder.Host.UseServiceProviderFactory(new FabricdotServiceProviderFactory())

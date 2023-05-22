@@ -33,11 +33,11 @@ namespace Student.Achieve.WebApi
                     .AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter()));
 
             services.AddSwagger();
-
             SystemClock.Configure(DateTimeKind.Utc);
             services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAuthenticationWithJwt(context.Configuration);
+            services.ConfigHangfire(context.Configuration);
         }
 
         public override Task OnStartingAsync(ApplicationStartingContext context)
@@ -50,7 +50,7 @@ namespace Student.Achieve.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHangfire(env);
             app.UseCorrelationId();
 
             app.UseStaticFiles();
