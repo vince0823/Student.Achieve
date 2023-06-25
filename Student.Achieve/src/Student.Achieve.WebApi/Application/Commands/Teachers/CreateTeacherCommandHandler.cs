@@ -38,7 +38,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Teachers
                 UserName = userName,
                 Password = UserConstants.DefaultPassword,
                 GivenName = command.TeacherName,
-               Email = command.TeacherEmail,
+                Email = command.TeacherEmail,
                 PhoneNumber = command.PhoneNumber,
                 TargetId = teacher.Id,
             };

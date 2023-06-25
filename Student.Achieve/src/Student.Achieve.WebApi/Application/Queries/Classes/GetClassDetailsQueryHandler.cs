@@ -32,7 +32,6 @@ namespace Student.Achieve.WebApi.Application.Queries.Classes
             Guard.Against.Null(selectClass, nameof(selectClass));
             var detail = _mapper.Map<ClassDetailsDto>(selectClass);
             detail.DutyUserName = (await _userRepository.GetByIdAsync((Guid)selectClass.DutyUserId, cancellationToken))?.GivenName;
-            detail.GradeName = selectClass.Grade.GradeName;
             return detail;
 
         }

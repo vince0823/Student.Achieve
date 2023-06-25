@@ -32,12 +32,13 @@ namespace Student.Achieve.WebApi.Application.Queries.Classes
             var classes = await _classRepository.ListAsync(spec, cancellationToken);
             var total = await _classRepository.CountAsync(spec, cancellationToken);
             var list = _mapper.Map<ICollection<ClassDetailsDto>>(classes);
-            list.ForEach(async v =>
+            var users = await _userRepository.ListAsync(cancellationToken);
+            list.ForEach(v =>
             {
-                var grade = classes.Single(o => o.Id == v.Id);
-                v.DutyUserName = (await _userRepository.GetByIdAsync((Guid)grade.DutyUserId, cancellationToken))?.GivenName;
+                v.DutyUserName = users.FirstOrDefault(t => t.Id == v.DutyUserId)?.GivenName;
 
             });
+
             return new PagedResultDto<ClassDetailsDto>(list, total);
         }
     }

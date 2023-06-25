@@ -16,7 +16,7 @@ namespace Student.Achieve.Domain.Aggregates.StudentAggregate
         public string PhoneNumber { get; private set; }
         public string StudentEmail { get; private set; }
         public Guid ClassId { get; private set; }
-        public virtual Class Class { get; private set; }
+        public virtual Class Class { get; private set; } = default!;
         private Student() { }
         public Student(Guid id, Guid? tenantId, string studentName, string phoneNumber, string email, Guid classId)
         {
@@ -26,6 +26,13 @@ namespace Student.Achieve.Domain.Aggregates.StudentAggregate
             PhoneNumber = phoneNumber;
             StudentEmail = email;
             ClassId = classId;
+        }
+        public void Update(string studentName, string email, string phoneNumber)
+        {
+            StudentName = studentName;
+            StudentEmail = email;
+            PhoneNumber = phoneNumber;
+
         }
     }
 }

@@ -12,13 +12,13 @@ namespace Student.Achieve.Domain.Aggregates.TenantAggregate
     public class Tenant : FullAuditAggregateRoot<Guid>, ITenant
     {
         /// <summary>
-        /// 机构名称
+        /// 租户名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
         ///     租户名称
         /// </summary>
-        public string NormalizedName { get;  set; }
+        public string NormalizedName { get; set; }
         /// <summary>
         /// 所属人ID
         /// </summary>
@@ -62,7 +62,7 @@ namespace Student.Achieve.Domain.Aggregates.TenantAggregate
         internal void SetName(string tenantName)
         {
             NormalizedName = Guard.Against.NullOrEmpty(tenantName, nameof(tenantName));
-           
+
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Teachers
         }
         public async override Task<Unit> ExecuteAsync(RemoveTeacherCommand command, CancellationToken cancellationToken)
         {
-            var teacher = await _teacherRepository.GetByIdAsync(command.TeacherId);
+            var teacher = await _teacherRepository.GetByIdAsync(command.TeacherId, cancellationToken);
             Guard.Against.Null(teacher, nameof(teacher));
             await _teacherRepository.DeleteAsync(teacher, cancellationToken);
             return Unit.Value;
