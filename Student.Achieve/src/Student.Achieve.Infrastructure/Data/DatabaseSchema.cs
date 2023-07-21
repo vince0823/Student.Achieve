@@ -13,5 +13,6 @@ namespace Student.Achieve.Infrastructure.Data
         public const string Class = "Classs";
         public const string Student = "Students";
         public const string Grade = "Grades";
+        public const string Course = "Courses";
     }
 }

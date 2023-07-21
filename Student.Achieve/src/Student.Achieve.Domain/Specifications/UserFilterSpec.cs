@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
 using Student.Achieve.Domain.Aggregates.UserAggregate;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Student.Achieve.Domain.Specifications
@@ -25,7 +26,13 @@ namespace Student.Achieve.Domain.Specifications
            string phoneNumber
            )
         {
-            Query.Where(v =>v.PhoneNumber == phoneNumber);
+            Query.Where(v => v.PhoneNumber == phoneNumber);
         }
+
+        public UserFilterSpec(HashSet<string> userIds)
+        {
+            Query.Where(v => userIds.Contains(v.Id.ToString()));
+        }
+
     }
 }
