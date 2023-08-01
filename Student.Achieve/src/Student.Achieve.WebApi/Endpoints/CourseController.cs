@@ -9,12 +9,20 @@ using System;
 using Student.Achieve.WebApi.Authorization;
 using Student.Achieve.WebApi.Application.Commands.Courses;
 using Student.Achieve.WebApi.Application.Queries.Courses;
+using Microsoft.Extensions.DependencyInjection;
+using Student.Achieve.WebApi.Services.ImportSheet;
+using Student.Achieve.Infrastructure.Documents;
+using System.IO;
+using Student.Achieve.Domain.Repositories;
 
 namespace Course.Achieve.WebApi.Endpoints
 {
     [DefaultAuthorize]
     public class CourseController : EndPointBase
     {
+
+        
+
         /// <summary>
         /// 添加课程
         /// </summary>
@@ -78,6 +86,48 @@ namespace Course.Achieve.WebApi.Endpoints
         {
             return await QueryProcessor.ProcessAsync(query);
         }
+
+        /// <summary>
+        ///     导入
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [Description("导入课程")]
+        //[AllowAnonymous]
+        [HttpPost("sheet")]
+        public async Task<ImportSheetResultDto> ImportSheetAsync([FromForm] IFormFile file)
+        {
+            SpreadSheetValidator.EnsureExtensionIsValid(file.FileName);
+            var excelService = ServiceProvider.GetRequiredService<IExcelService>();
+            await using var stream = file.OpenReadStream();
+            var rowValues = excelService.ReadValues(stream);
+
+            return await CommandBus.PublishAsync(new ImportCoursesFromSheetCommand(rowValues));
+        }
+        /// <summary>
+        ///     导出计划
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [Description("导出计划")]
+        [AllowAnonymous]
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportAsync()
+        {
+            var courseRepository = ServiceProvider.GetRequiredService<ICourseRepository>();
+            var sources = await courseRepository.ListAsync();
+            var excelService = ServiceProvider.GetRequiredService<IExcelService>();
+            string folder = Path.Combine(Directory.GetCurrentDirectory(), "Resources/Templates");
+            string path = Path.Combine(folder, "course-form.xlsx");
+            var fileStream = new FileStream(path, FileMode.Open);
+            var lastStream = excelService.WriteCollection(fileStream, sources);
+
+            //var fileStream=new FileStream(path, FileMode.Open);
+            this.HttpContext.Response.Headers.Add("Content-Length", lastStream.Length.ToString());
+            this.HttpContext.Response.Headers.Add("Content-Type", "charset=UTF-8");
+            return File(lastStream, "application/octet-stream;charset=UTF-8", Path.GetFileName(path));
+        }
+
 
     }
 }
