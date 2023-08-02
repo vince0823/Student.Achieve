@@ -14,6 +14,8 @@ using Student.Achieve.WebApi.Services.ImportSheet;
 using Student.Achieve.Infrastructure.Documents;
 using System.IO;
 using Student.Achieve.Domain.Repositories;
+using NPOI.SS.Formula.Functions;
+using System.Collections.Generic;
 
 namespace Course.Achieve.WebApi.Endpoints
 {
@@ -21,7 +23,7 @@ namespace Course.Achieve.WebApi.Endpoints
     public class CourseController : EndPointBase
     {
 
-        
+
 
         /// <summary>
         /// 添加课程
@@ -88,26 +90,26 @@ namespace Course.Achieve.WebApi.Endpoints
         }
 
         /// <summary>
-        ///     导入
+        ///     import to excel
         /// </summary>
         /// <param name="file"></param>
+        /// <param name="tenantId"></param>
         /// <returns></returns>
         [Description("导入课程")]
         //[AllowAnonymous]
-        [HttpPost("sheet")]
-        public async Task<ImportSheetResultDto> ImportSheetAsync([FromForm] IFormFile file)
+        [HttpPost("{tenantId}/sheet")]
+        public async Task<ImportSheetResultDto> ImportSheetAsync([FromForm] IFormFile file, Guid tenantId)
         {
             SpreadSheetValidator.EnsureExtensionIsValid(file.FileName);
             var excelService = ServiceProvider.GetRequiredService<IExcelService>();
             await using var stream = file.OpenReadStream();
             var rowValues = excelService.ReadValues(stream);
 
-            return await CommandBus.PublishAsync(new ImportCoursesFromSheetCommand(rowValues));
+            return await CommandBus.PublishAsync(new ImportCoursesFromSheetCommand(rowValues, tenantId));
         }
         /// <summary>
-        ///     导出计划
+        ///     export to excel
         /// </summary>
-        /// <param name="query"></param>
         /// <returns></returns>
         [Description("导出计划")]
         [AllowAnonymous]
@@ -116,11 +118,12 @@ namespace Course.Achieve.WebApi.Endpoints
         {
             var courseRepository = ServiceProvider.GetRequiredService<ICourseRepository>();
             var sources = await courseRepository.ListAsync();
+            ICollection<Student.Achieve.Domain.Aggregates.CourseAggregate.Course> collection = new List<Student.Achieve.Domain.Aggregates.CourseAggregate.Course>(sources);
             var excelService = ServiceProvider.GetRequiredService<IExcelService>();
             string folder = Path.Combine(Directory.GetCurrentDirectory(), "Resources/Templates");
             string path = Path.Combine(folder, "course-form.xlsx");
             var fileStream = new FileStream(path, FileMode.Open);
-            var lastStream = excelService.WriteCollection(fileStream, sources);
+            var lastStream = excelService.WriteCollection(fileStream, collection);
 
             //var fileStream=new FileStream(path, FileMode.Open);
             this.HttpContext.Response.Headers.Add("Content-Length", lastStream.Length.ToString());

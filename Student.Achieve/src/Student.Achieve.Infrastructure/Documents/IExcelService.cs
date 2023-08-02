@@ -44,7 +44,7 @@ namespace Student.Achieve.Infrastructure.Documents
         /// <returns></returns>
         Stream WriteCollection<T>(
             Stream templateStream,
-            IReadOnlyList<T> source,
+            ICollection<T> source,
             TemplateOptions options = default);
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Student.Achieve.Infrastructure.Documents
         /// <returns></returns>
         Stream WriteCollection<T>(
             string templatePath,
-            IReadOnlyList<T> source,
+            ICollection<T> source,
             TemplateOptions options = default);
     }
 }

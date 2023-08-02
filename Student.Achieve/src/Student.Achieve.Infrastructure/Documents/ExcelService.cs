@@ -106,7 +106,7 @@ namespace Student.Achieve.Infrastructure.Documents
         /// <inheritdoc />
         public Stream WriteCollection<T>(
             Stream templateStream,
-            IReadOnlyList<T> source,
+            ICollection<T> source,
             TemplateOptions options = default)
         {
             Guard.Against.Null(templateStream, nameof(templateStream));
@@ -164,7 +164,7 @@ namespace Student.Achieve.Infrastructure.Documents
         /// <inheritdoc />
         public Stream WriteCollection<T>(
             string templatePath,
-            IReadOnlyList<T> source,
+            ICollection<T> source,
             TemplateOptions options = default)
         {
             if (!File.Exists(templatePath))

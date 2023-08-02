@@ -17,14 +17,14 @@ namespace Student.Achieve.WebApi.Application.Commands.Courses
         private readonly IImportService _importService;
         private readonly IGuidGenerator _guidGenerator;
         private readonly ICourseRepository _courseRepository;
-        private readonly ICurrentTenant _currentTenant;
 
-        public ImportCoursesFromSheetCommandHandler (IImportService importService, IGuidGenerator guidGenerator, ICourseRepository courseRepository, ICurrentTenant currentTenant)
+
+        public ImportCoursesFromSheetCommandHandler(IImportService importService, IGuidGenerator guidGenerator, ICourseRepository courseRepository)
         {
             _importService = importService;
             _guidGenerator = guidGenerator;
             _courseRepository = courseRepository;
-            _currentTenant = currentTenant;
+
         }
 
         public override async Task<ImportSheetResultDto> ExecuteAsync(ImportCoursesFromSheetCommand command, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Courses
                 {
                     throw new CustomException($"系统内已存在{dto.CourseName}课程");
                 }
-                var course = new Domain.Aggregates.CourseAggregate.Course(_guidGenerator.Create(), _currentTenant.Id, dto.CourseName);
+                var course = new Domain.Aggregates.CourseAggregate.Course(_guidGenerator.Create(), command.TenantId, dto.CourseName);
                 await _courseRepository.AddAsync(course, cancellationToken);
             }, cancellationToken: cancellationToken);
 
