@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System;
 using Fabricdot.WebApi.Models;
 using Student.Achieve.WebApi.Application.Queries.Grades;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Student.Achieve.WebApi.Endpoints
 {
@@ -90,5 +92,18 @@ namespace Student.Achieve.WebApi.Endpoints
         {
             await CommandBus.PublishAsync(new GraduateGradeCommand(id));
         }
+
+        /// <summary>
+        /// tree
+        /// </summary>
+        /// <returns></returns>
+        [Description("get Grade and class tree")]
+        [HttpGet("tree")]
+        [AllowAnonymous]
+        public async Task<ICollection<GradeTreeDto>> GetGradeTree([FromQuery] GetGradeTreeQuery query)
+        {
+            return await QueryProcessor.ProcessAsync(query);
+        }
+
     }
 }

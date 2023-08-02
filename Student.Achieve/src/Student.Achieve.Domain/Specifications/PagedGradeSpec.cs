@@ -16,11 +16,21 @@ namespace Student.Achieve.Domain.Specifications
         public PagedGradeSpec(int offset, int size, string gradeName)
         {
             gradeName ??= "";
-            Query.Where(v => v.GradeName.Contains(gradeName))
+            Query.Where(v => v.GradeName.Contains(gradeName) && v.IsGraduated == true)
                 //.Include(v => v.User)
                 .OrderByDescending(v => v.CreationTime);
             Query.Skip(offset)
                 .Take(size);
+
+        }
+
+        public PagedGradeSpec()
+        {
+
+            Query.Where(v => v.IsGraduated != true)
+
+                .OrderByDescending(v => v.CreationTime);
+
 
         }
     }

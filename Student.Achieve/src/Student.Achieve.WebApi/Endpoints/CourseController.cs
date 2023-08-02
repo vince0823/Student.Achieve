@@ -23,8 +23,6 @@ namespace Course.Achieve.WebApi.Endpoints
     public class CourseController : EndPointBase
     {
 
-
-
         /// <summary>
         /// 添加课程
         /// </summary>

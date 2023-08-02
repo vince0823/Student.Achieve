@@ -23,6 +23,9 @@ namespace Student.Achieve.Domain.Specifications
         {
             Query.AsNoTracking().Where(v => v.GradeId == gradeId && v.ClassName == className && v.Id != classId);
         }
-
+        public ClassFilterSpec(HashSet<Guid> gradeIds)
+        {
+            Query.AsNoTracking().Where(v => gradeIds.Contains(v.GradeId));
+        }
     }
 }
