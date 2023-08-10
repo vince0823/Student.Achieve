@@ -19,15 +19,18 @@ namespace Student.Achieve.Infrastructure.Data.Configuration
             base.Configure(builder);
             builder.ToTable(DatabaseSchema.StudentScore);
             builder.Property(t => t.Id).ValueGeneratedNever();
-            builder.HasOne<ExamTask>()
-              .WithMany()
-              .HasForeignKey(v => v.ExamTaskId)
-              .IsRequired();
-            builder.HasOne<Student.Achieve.Domain.Aggregates.StudentAggregate.Student>()
-             .WithMany()
-             .HasForeignKey(v => v.StudentId)
+            //builder.HasOne<ExamTask>()
+            //  .WithMany()
+            //  .HasForeignKey(v => v.ExamTaskId)
+            //  .IsRequired();
+            //builder.HasOne<Student.Achieve.Domain.Aggregates.StudentAggregate.Student>()
+            // .WithMany()
+            // .HasForeignKey(v => v.StudentId)
+            // .IsRequired();
+            builder.Property(v => v.ExamTaskId)
              .IsRequired();
-
+            builder.Property(v => v.StudentId)
+           .IsRequired();
             builder.Property(v => v.Score)
              .IsRequired();
 

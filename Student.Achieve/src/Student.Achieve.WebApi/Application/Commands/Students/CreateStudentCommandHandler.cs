@@ -3,6 +3,7 @@ using Fabricdot.Core.UniqueIdentifier;
 using Fabricdot.Infrastructure.Commands;
 using Fabricdot.MultiTenancy.Abstractions;
 using Student.Achieve.Domain.Aggregates.TeacherAggregate;
+using Student.Achieve.Domain.Aggregates.UserAggregate;
 using Student.Achieve.Domain.Events;
 using Student.Achieve.Domain.Repositories;
 using Student.Achieve.Domain.Shared.Constants;
@@ -45,6 +46,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Students
                 Password = UserConstants.DefaultPassword,
                 GivenName = command.StudentName,
                 Email = command.StudentEmail,
+                UserType= UserType.Student,
                 PhoneNumber = command.PhoneNumber,
                 TargetId = student.Id,
             };

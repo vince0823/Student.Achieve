@@ -17,5 +17,13 @@ namespace Student.Achieve.Domain.Specifications
             Query.Include(v => v.Class);
 
         }
+
+
+        public StudentSpec(List<Guid> classIds)
+        {
+            Query.Where(v => classIds.Contains(v.ClassId));
+            Query.Include(v => v.Class);
+
+        }
     }
 }

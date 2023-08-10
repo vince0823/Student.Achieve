@@ -2,6 +2,7 @@
 using Fabricdot.Infrastructure.Commands;
 using Fabricdot.MultiTenancy.Abstractions;
 using Student.Achieve.Domain.Aggregates.TeacherAggregate;
+using Student.Achieve.Domain.Aggregates.UserAggregate;
 using Student.Achieve.Domain.Events;
 using Student.Achieve.Domain.Repositories;
 using Student.Achieve.Domain.Shared.Constants;
@@ -40,6 +41,7 @@ namespace Student.Achieve.WebApi.Application.Commands.Teachers
                 GivenName = command.TeacherName,
                 Email = command.TeacherEmail,
                 PhoneNumber = command.PhoneNumber,
+                UserType = UserType.Teacher,
                 TargetId = teacher.Id,
             };
             teacher.AddDomainEvent(new UserCreateEvent((Guid)_currentTenant.Id, userInfo));

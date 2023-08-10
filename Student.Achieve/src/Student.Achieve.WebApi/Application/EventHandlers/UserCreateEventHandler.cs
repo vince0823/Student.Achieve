@@ -50,7 +50,7 @@ namespace Student.Achieve.WebApi.Application.EventHandlers
                 userInfo.UserName,
                 userInfo.GivenName,
 
-               UserType.Teacher,
+               userInfo.UserType,
                userInfo.TargetId,
                "",
                userInfo.Email);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Student.Achieve.Domain.Aggregates.UserAggregate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Student.Achieve.Domain.Aggregates.TeacherAggregate
 
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public UserType UserType { get; set; }
         public Guid TargetId { get; set; }
     }
 }
