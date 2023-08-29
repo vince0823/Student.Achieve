@@ -48,19 +48,32 @@ namespace Student.Achieve.WebApi.Application.Commands.ExamTasks
                 throw new CustomException($"系统内已存在{command.TaskName}考试任务");
             }
             var newTask = new ExamTask(_guidGenerator.Create(), _currentTenant.Id, command.TaskName, command.StartTime, command.EndTime, command.AcademicYear, command.Semester);
-            newTask.AddExamTask_Course(_guidGenerator.Create(), newTask.Id, command.CourseIds);
-            newTask.AddExamTask_Classes(_guidGenerator.Create(), newTask.Id, command.ClassIds);
+            command.CourseIds.ForEach(v =>
+            {
+                newTask.AddExamTask_Course(_guidGenerator.Create(), newTask.Id, v);
+
+            });
+            command.ClassIds.ForEach(v =>
+            {
+                newTask.AddExamTask_Classes(_guidGenerator.Create(), newTask.Id, v);
+            });
+           
             //获取班级内的学生
             var studentSpec = new StudentSpec(command.ClassIds);
             var students = await _studentRepository.ListAsync(studentSpec, cancellationToken);
-            var scores=new List<StudentScore>();
-            students.ForEach(v =>
+            var scores = new List<StudentScore>();
+            command.CourseIds.ForEach(c =>
             {
-                var score = new StudentScore(_guidGenerator.Create(), newTask.Id, v.Id, 0);
-                scores.Add(score);
+                students.ForEach(v =>
+                {
+                    var score = new StudentScore(_guidGenerator.Create(), newTask.Id, c, v.Id, 0);
+                    scores.Add(score);
+                });
             });
-            //有外键  无法插入
-            await _appDbContext.StudentScores.BulkInsertAsync(scores);
+
+            //如果有外键  无法插入
+            await _appDbContext.StudentScores.BulkInsertAsync(scores, cancellationToken);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
             await _examTaskRepository.AddAsync(newTask, cancellationToken);
             return newTask.Id;
         }

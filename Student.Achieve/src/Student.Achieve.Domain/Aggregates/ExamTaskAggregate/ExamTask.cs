@@ -50,28 +50,24 @@ namespace Student.Achieve.Domain.Aggregates.ExamTaskAggregate
 
         }
 
-        public void AddExamTask_Course(Guid task_CourseId, Guid taskId, List<Guid> CourseIds)
+        public void AddExamTask_Course(Guid task_CourseId, Guid taskId, Guid courseId)
         {
-            CourseIds.ForEach(courseId =>
-            {
-                var item = new ExamTask_Course(task_CourseId, taskId, courseId);
-                _examTask_Courses.Add(item);
 
-            });
+            var item = new ExamTask_Course(task_CourseId, taskId, courseId);
+            _examTask_Courses.Add(item);
         }
         public void RemoveExamTask_Course(Guid taskId)
         {
             _examTask_Courses.RemoveAll(v => v.ExamTaskId == taskId);
         }
 
-        public void AddExamTask_Classes(Guid task_ClassId, Guid taskId, List<Guid> classIds)
+        public void AddExamTask_Classes(Guid task_ClassId, Guid taskId, Guid classId)
         {
-            classIds.ForEach(classId =>
-            {
-                var item = new ExamTask_Class(task_ClassId, taskId, classId);
-                _examTask_Classes.Add(item);
 
-            });
+            var item = new ExamTask_Class(task_ClassId, taskId, classId);
+            _examTask_Classes.Add(item);
+
+
         }
 
         public void RemoveExamTask_Class(Guid taskId)

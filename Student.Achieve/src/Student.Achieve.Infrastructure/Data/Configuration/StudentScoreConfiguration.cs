@@ -29,6 +29,8 @@ namespace Student.Achieve.Infrastructure.Data.Configuration
             // .IsRequired();
             builder.Property(v => v.ExamTaskId)
              .IsRequired();
+            builder.Property(v => v.CourseId)
+            .IsRequired();
             builder.Property(v => v.StudentId)
            .IsRequired();
             builder.Property(v => v.Score)

@@ -18,6 +18,18 @@ namespace Student.Achieve.Domain.Specifications
             Query.Where(t => t.TaskName == taskName);
         }
 
+        public ExamTaskFilter(string taskName, Guid id)
+        {
+
+            Query.Where(t => t.TaskName == taskName && t.Id != id);
+        }
+        public ExamTaskFilter(Guid id)
+        {
+            Query.Where(t => t.Id == id)
+                .Include(t => t.examTask_Courses)
+                .Include(t => t.examTask_Classes);
+        }
+
 
     }
 }
